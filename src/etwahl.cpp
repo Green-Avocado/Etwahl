@@ -6,14 +6,21 @@
 #include <iostream>
 #include <thread>
 
-#include <cstdlib>
+#include <climits>
 #include <csignal>
+#include <cstdlib>
 
-bool done;
+static RtMidiIn *midiin = new RtMidiIn();
 
-static void finish(int ignore)
+static void cleanup()
 {
-    done = true;
+    delete midiin;
+    exit(0);
+}
+
+static void interruptHandler(int signal)
+{
+    cleanup();
 }
 
 void midiHandler(double timeStamp, std::vector< unsigned char > *message, void *userData)
@@ -31,10 +38,7 @@ void midiHandler(double timeStamp, std::vector< unsigned char > *message, void *
 
 int main()
 {
-    RtMidiIn *midiin = new RtMidiIn();
-    std::vector<unsigned char> message;
     int portNum;
-    double stamp;
 
     // Set MidiIn callback.
     midiin->setCallback(midiHandler);
@@ -50,33 +54,24 @@ int main()
         }
         catch ( RtMidiError &error ) {
             error.printMessage();
-            goto cleanup;
+            cleanup();
         }
         std::cout << "  Input Port #" << i+1 << ": " << portName << '\n';
     }
 
     // Get port number.
     std::cin >> portNum;
-    portNum--;
 
-    midiin->openPort(portNum);
-    std::cout << "Reading MIDI from port " << portNum + 1 << "... quit with Ctrl-C.\n";
-
-    // Don't ignore sysex, timing, or active sensing messages.
-    midiin->ignoreTypes(false, false, false);
+    midiin->openPort(portNum - 1);
+    std::cout << "Reading MIDI from port " << portNum << "... Press Enter to quit.\n";
 
     // Install an interrupt handler function.
-    done = false;
-    (void) signal(SIGINT, finish);
+    (void) signal(SIGINT, interruptHandler);
 
-    while(!done)
-    {
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    }
+    std::cin.ignore(INT_MAX, '\n');
+    std::cin.get();
 
-    // Clean up
-    cleanup:
-        delete midiin;
+    cleanup();
 
     return 0;
 }
