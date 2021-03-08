@@ -1,6 +1,6 @@
 #include <winuser.h>
 
-void key(char key, bool keydown)
+void key(const char *keystring, bool keydown)
 {
 }
 
