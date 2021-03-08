@@ -1,3 +1,4 @@
+#include "keypress.h"
 #include "RtMidi.h"
 
 #include <chrono>
