@@ -1,3 +1,2 @@
-void press();
-void release();
+void key(char key, bool keydown);
 

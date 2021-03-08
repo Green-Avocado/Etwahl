@@ -8,15 +8,33 @@
 #include <signal.h>
 
 bool done;
-static void finish(int ignore){ done = true; }
+
+static void finish(int ignore)
+{
+    done = true;
+}
+
+void midiHandler(double timeStamp, std::vector< unsigned char > *message, void *userData)
+{
+    int nBytes;
+    nBytes = message->size();
+
+    for(int i = 0; i < nBytes; i++)
+        std::cout << "Byte " << i << " = " << &message[i] << ", ";
+
+    if(nBytes > 0)
+        std::cout << "stamp = " << timeStamp << std::endl;
+}
 
 int main()
 {
     RtMidiIn *midiin = new RtMidiIn();
     std::vector<unsigned char> message;
     int portNum;
-    int nBytes;
     double stamp;
+
+    // Set MidiIn callback.
+    midiin->setCallback(midiHandler);
 
     // Check inputs.
     unsigned int nPorts = midiin->getPortCount();
@@ -39,6 +57,7 @@ int main()
     portNum--;
 
     midiin->openPort(portNum);
+    std::cout << "Reading MIDI from port " << portNum + 1 << "... quit with Ctrl-C.\n";
 
     // Don't ignore sysex, timing, or active sensing messages.
     midiin->ignoreTypes(false, false, false);
@@ -47,21 +66,9 @@ int main()
     done = false;
     (void) signal(SIGINT, finish);
 
-    // Periodically check input queue.
-    std::cout << "Reading MIDI from port " << portNum + 1 << "... quit with Ctrl-C.\n";
-
-    while(!done) {
-        stamp = midiin->getMessage(&message);
-        nBytes = message.size();
-
-        for(int i = 0; i < nBytes; i++)
-            std::cout << "Byte " << i << " = " << (int)message[i] << ", ";
-
-        if(nBytes > 0)
-            std::cout << "stamp = " << stamp << std::endl;
-
-        // Sleep for 10 milliseconds ... platform-dependent.
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    while(!done)
+    {
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 
     // Clean up
