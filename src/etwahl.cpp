@@ -2,10 +2,12 @@
 #include "RtMidi.h"
 
 #include <chrono>
-#include <thread>
+#include <iomanip>
 #include <iostream>
+#include <thread>
+
 #include <cstdlib>
-#include <signal.h>
+#include <csignal>
 
 bool done;
 
@@ -20,10 +22,11 @@ void midiHandler(double timeStamp, std::vector< unsigned char > *message, void *
     nBytes = message->size();
 
     for(int i = 0; i < nBytes; i++)
-        std::cout << "Byte " << i << " = " << (int)message->at(i) << ", ";
+        std::cout <<
+            "Byte " << i << " = " << 
+            std::setw(2) << std::setfill('0') << std::hex << (int)message->at(i) << ", ";
 
-    if(nBytes > 0)
-        std::cout << "stamp = " << timeStamp << std::endl;
+    std::cout << "stamp = " << timeStamp << std::endl;
 }
 
 int main()
