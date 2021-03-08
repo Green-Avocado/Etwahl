@@ -1,13 +1,10 @@
+#include "RtMidi.h"
+
+#include <chrono>
+#include <thread>
 #include <iostream>
 #include <cstdlib>
 #include <signal.h>
-#include "RtMidi.h"
-
-#ifdef _WIN32
-#include <Windows.h>
-#else
-#include <unistd.h>
-#endif
 
 bool done;
 static void finish(int ignore){ done = true; }
@@ -48,7 +45,7 @@ int main()
             std::cout << "stamp = " << stamp << std::endl;
 
         // Sleep for 10 milliseconds ... platform-dependent.
-        sleep( 0.01 );
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
 
     // Clean up
