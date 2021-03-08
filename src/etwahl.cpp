@@ -15,6 +15,8 @@ static RtMidiIn *midiin = new RtMidiIn();
 static void cleanup()
 {
     delete midiin;
+
+    std::cout << "Terminated normally." << std::endl;
     exit(0);
 }
 
@@ -29,8 +31,7 @@ void midiHandler(double timeStamp, std::vector< unsigned char > *message, void *
     nBytes = message->size();
 
     for(int i = 0; i < nBytes; i++)
-        std::cout <<
-            std::setw(2) << std::setfill('0') << std::hex << (int)message->at(i);
+        std::cout << std::setw(2) << std::setfill('0') << std::hex << (int)message->at(i);
 
     std::cout << "    " << timeStamp << std::endl;
 
