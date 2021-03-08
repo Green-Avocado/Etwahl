@@ -40,10 +40,13 @@ int main()
 {
     int portNum;
 
+    // Install an interrupt handler function.
+    (void) signal(SIGINT, interruptHandler);
+
     // Set MidiIn callback.
     midiin->setCallback(midiHandler);
 
-    // Check inputs.
+    // Check MIDI inputs.
     unsigned int nPorts = midiin->getPortCount();
     std::cout << "\nThere are " << nPorts << " MIDI input sources available.\n";
     std::string portName;
@@ -64,9 +67,6 @@ int main()
 
     midiin->openPort(portNum - 1);
     std::cout << "Reading MIDI from port " << portNum << "... Press Enter to quit.\n";
-
-    // Install an interrupt handler function.
-    (void) signal(SIGINT, interruptHandler);
 
     std::cin.ignore(INT_MAX, '\n');
     std::cin.get();
