@@ -1,2 +1,2 @@
-void key(char key, bool keydown);
+void key(char* key, bool keydown);
 
