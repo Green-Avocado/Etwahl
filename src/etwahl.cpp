@@ -20,7 +20,7 @@ void midiHandler(double timeStamp, std::vector< unsigned char > *message, void *
     nBytes = message->size();
 
     for(int i = 0; i < nBytes; i++)
-        std::cout << "Byte " << i << " = " << &message[i] << ", ";
+        std::cout << "Byte " << i << " = " << (int)message->at(i) << ", ";
 
     if(nBytes > 0)
         std::cout << "stamp = " << timeStamp << std::endl;
