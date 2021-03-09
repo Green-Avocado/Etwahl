@@ -44,7 +44,7 @@ void midiHandler(double timeStamp, std::vector< unsigned char > *message, void *
         std::cout << std::setw(2) << std::setfill('0') << std::hex << (int)message->at(i);
     }
 
-    std::cout << "    " << timeStamp << std::endl;
+    std::cout << "  " << timeStamp << std::endl;
 
     const char *keystring = "Shift_L";
 
