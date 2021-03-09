@@ -6,7 +6,7 @@
 #include <cstring>
 
 typedef struct keybind {
-    char hexBytes[6];
+    char hexBytes[8];
     std::string keystring;
 
     bool operator==(const keybind& other) const

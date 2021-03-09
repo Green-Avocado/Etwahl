@@ -8,8 +8,12 @@
 keybind lineToKeybind(std::string line)
 {
     keybind newbind;
+    std::stringstream lineStream;
 
-    std::cout << line << std::endl;
+    lineStream << line;
+
+    lineStream.get(newbind.hexBytes, 8);
+    lineStream >> newbind.keystring;
     
     return newbind;
 }
@@ -31,7 +35,7 @@ std::vector<keybind> loadConfig(std::string filename)
 
             try
             {
-                lineToKeybind(line);
+                config.push_back(lineToKeybind(line));
             }
             catch(std::string error)
             {
