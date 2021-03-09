@@ -13,7 +13,7 @@
 #include <csignal>
 #include <cstdlib>
 
-static RtMidiIn *midiin = new RtMidiIn();
+static RtMidiIn *midiin;
 
 static void cleanup()
 {
@@ -65,9 +65,17 @@ int main()
 
     (void) signal(SIGINT, interruptHandler);
 
-    midiin->setCallback(midiHandler);
+    try
+    {
+        midiin = new RtMidiIn();
+        midiin->setCallback(midiHandler);
+        nPorts = midiin->getPortCount();
+    }
+    catch(RtMidiError &error)
+    {
+        fatalErrorHandler();
+    }
 
-    nPorts = midiin->getPortCount();
     std::cout << "\nThere are " << nPorts << " MIDI input sources available.\n";
 
     for (int i=0; i < nPorts; i++)
