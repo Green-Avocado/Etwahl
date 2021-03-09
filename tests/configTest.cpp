@@ -32,14 +32,8 @@ std::vector<keybind> testConfigFile(std::string contents)
     return config;
 }
 
-std::vector<keybind> testConfigVector()
-{
-    std::vector<keybind> vec;
-    return vec;
-}
-
 TEST_CASE("Configuration file read and interpreted", "[config]")
 {
-    REQUIRE(testConfigFile("") == testConfigVector());
+    REQUIRE(testConfigFile("") == std::vector<keybind> {});
 }
 
