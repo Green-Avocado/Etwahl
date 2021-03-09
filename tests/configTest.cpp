@@ -7,8 +7,9 @@
 #include <vector>
 #include <cstdio>
 
-std::vector<keybind> testConfigFile(std::string filename, std::string contents)
+std::vector<keybind> testConfigFile(std::string contents)
 {
+    const std::string filename = "test.config~";
     std::ofstream testfile;
     std::vector<keybind> config;
 
@@ -39,6 +40,6 @@ std::vector<keybind> testConfigVector()
 
 TEST_CASE("Configuration file read and interpreted", "[config]")
 {
-    REQUIRE(testConfigFile("test1.config~", "") == testConfigVector());
+    REQUIRE(testConfigFile("") == testConfigVector());
 }
 
