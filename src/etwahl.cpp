@@ -67,6 +67,15 @@ int main()
 
     try
     {
+        loadConfig("etwahl.conf");
+    }
+    catch(std::string error)
+    {
+        fatalErrorHandler();
+    }
+
+    try
+    {
         midiin = new RtMidiIn();
         midiin->setCallback(midiHandler);
         nPorts = midiin->getPortCount();
