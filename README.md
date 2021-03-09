@@ -1,2 +1,6 @@
-# etwahl
-Bind MIDI signals to keystrokes
+# Etwahl
+
+Bind MIDI signals to keystrokes.
+
+(Work in progress)
+
