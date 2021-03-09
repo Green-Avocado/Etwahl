@@ -60,28 +60,26 @@ void midiHandler(double timeStamp, std::vector< unsigned char > *message, void *
 
 int main()
 {
-    int portNum;
+    unsigned int nPorts;
+    unsigned int portNum;
 
     (void) signal(SIGINT, interruptHandler);
 
     midiin->setCallback(midiHandler);
 
-    unsigned int nPorts = midiin->getPortCount();
+    nPorts = midiin->getPortCount();
     std::cout << "\nThere are " << nPorts << " MIDI input sources available.\n";
-    std::string portName;
 
     for (int i=0; i < nPorts; i++)
     {
         try
         {
-            portName = midiin->getPortName(i);
+            std::cout << "  Input Port " << i + 1 << ": " << midiin->getPortName(i) << '\n';
         }
         catch(RtMidiError &error)
         {
             fatalErrorHandler();
         }
-
-        std::cout << "  Input Port " << i + 1 << ": " << portName << '\n';
     }
 
     std::cin >> portNum;
