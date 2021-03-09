@@ -1,8 +1,9 @@
 cmake_minimum_required(VERSION 3.10)
 
-file(GLOB COMMON_TESTS *.cpp)
-file(GLOB PLATFORM_TESTS *.cpp)
+set(CONFIG_TEST configTest.cpp ${PROJECT_SOURCE_DIR}/src/config.cpp)
 
-add_executable(tests ${COMMON_TESTS} ${PLATFORM_TESTS})
+set(ALL_TESTS ${CONFIG_TEST})
+
+add_executable(tests tests.cpp ${ALL_TESTS})
 target_link_libraries(tests ${LINK_LIBRARIES})
 
