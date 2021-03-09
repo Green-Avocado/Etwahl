@@ -20,7 +20,7 @@ static void cleanup()
     delete midiin;
 }
 
-static void interruptHandler(int signal)
+static void interruptHandler(int)
 {
     cleanup();
     std::cout << "Terminated normally." << std::endl;
@@ -34,7 +34,7 @@ static void fatalErrorHandler()
     exit(-1);
 }
 
-void midiHandler(double timeStamp, std::vector< unsigned char > *message, void *userData)
+void midiHandler(double timeStamp, std::vector< unsigned char > *message, void*)
 {
     int nBytes;
     nBytes = message->size();
@@ -78,7 +78,7 @@ int main()
 
     std::cout << "\nThere are " << nPorts << " MIDI input sources available.\n";
 
-    for (int i=0; i < nPorts; i++)
+    for(unsigned int i = 0; i < nPorts; i++)
     {
         try
         {
