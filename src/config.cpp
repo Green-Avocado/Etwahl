@@ -1,4 +1,5 @@
 #include "config.h"
+#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -12,8 +13,13 @@ keybind lineToKeybind(std::string line)
 
     lineStream << line;
 
-    lineStream.get(newbind.hexBytes, 8);
+    lineStream >> newbind.hexBytes;
     lineStream >> newbind.keystring;
+
+    if(strlen(newbind.hexBytes) != 6 || newbind.keystring.length() <= 0)
+    {
+        throw (std::string)"Invalid configuration file";
+    }
     
     return newbind;
 }
@@ -35,6 +41,7 @@ std::vector<keybind> loadConfig(std::string filename)
 
             try
             {
+                if(!std::all_of(line.begin(), line.end(), isspace))
                 config.push_back(lineToKeybind(line));
             }
             catch(std::string error)

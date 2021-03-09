@@ -37,6 +37,15 @@ TEST_CASE("Configuration file read and interpreted", "[config]")
     REQUIRE(testConfigFile("") ==
             std::vector<keybind> {});
 
+    REQUIRE(testConfigFile(" xxxxxx A") ==
+            std::vector<keybind> {keybind {{'x','x','x','x','x','x'}, "A"}});
+
+    REQUIRE(testConfigFile("\nxxxxxx A") ==
+            std::vector<keybind> {keybind {{'x','x','x','x','x','x'}, "A"}});
+
+    REQUIRE(testConfigFile("\txxxxxx A") ==
+            std::vector<keybind> {keybind {{'x','x','x','x','x','x'}, "A"}});
+
     REQUIRE(testConfigFile("xxxxxx A") ==
             std::vector<keybind> {keybind {{'x','x','x','x','x','x'}, "A"}});
 
@@ -56,5 +65,11 @@ TEST_CASE("Configuration file read and interpreted", "[config]")
                 keybind {{'a','1','b','2','c','3'}, "Shift_L"},
                 keybind {{'d','4','e','5','f','6'}, "Control_R"},
             });
+
+    REQUIRE_THROWS(testConfigFile("xxxxxx"));
+
+    REQUIRE_THROWS(testConfigFile("xxxxxxx"));
+
+    REQUIRE_THROWS(testConfigFile("xxxxxxx A"));
 }
 
