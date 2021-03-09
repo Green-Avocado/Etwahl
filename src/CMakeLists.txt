@@ -10,8 +10,10 @@ set(LINK_LIBRARIES)
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     message(STATUS "Compiling for Linux...")
     add_compile_options(-Wall -Wextra -pedantic -Werror)
+
     add_definitions(-D__LINUX_ALSA__)
-    set(LINK_LIBRARIES ${LINK_LIBRARIES} -lX11 -lXtst -lasound -lpthread)
+    set(LINK_LIBRARIES ${LINK_LIBRARIES} -lX11 -lXtst)
+    set(LINK_LIBRARIES ${LINK_LIBRARIES} -lasound -lpthread)
 
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     message(STATUS "Compiling for Windows...")
