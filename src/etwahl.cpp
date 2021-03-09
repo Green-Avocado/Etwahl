@@ -1,10 +1,13 @@
+#include "config.h"
 #include "keypress.h"
 #include "RtMidi.h"
 
 #include <chrono>
+#include <fstream>
 #include <iomanip>
 #include <iostream>
 #include <thread>
+#include <vector>
 
 #include <climits>
 #include <csignal>
@@ -37,7 +40,9 @@ void midiHandler(double timeStamp, std::vector< unsigned char > *message, void *
     nBytes = message->size();
 
     for(int i = 0; i < nBytes; i++)
+    {
         std::cout << std::setw(2) << std::setfill('0') << std::hex << (int)message->at(i);
+    }
 
     std::cout << "    " << timeStamp << std::endl;
 
@@ -57,13 +62,10 @@ int main()
 {
     int portNum;
 
-    // Install an interrupt handler function.
     (void) signal(SIGINT, interruptHandler);
 
-    // Set MidiIn callback.
     midiin->setCallback(midiHandler);
 
-    // Check MIDI inputs.
     unsigned int nPorts = midiin->getPortCount();
     std::cout << "\nThere are " << nPorts << " MIDI input sources available.\n";
     std::string portName;
@@ -82,7 +84,6 @@ int main()
         std::cout << "  Input Port " << i + 1 << ": " << portName << '\n';
     }
 
-    // Get port number.
     std::cin >> portNum;
 
     try
@@ -100,7 +101,6 @@ int main()
     std::cin.get();
 
     cleanup();
-
     std::cout << "Terminated normally." << std::endl;
 
     return 0;
