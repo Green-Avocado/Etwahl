@@ -3,10 +3,18 @@
 
 #include <string>
 #include <vector>
+#include <cstring>
 
 typedef struct keybind {
-    char bytesHex[6];
+    char hexBytes[6];
     std::string keystring;
+
+    bool operator==(const keybind& other) const
+    {
+        bool bytesMatch = (strncmp(hexBytes, other.hexBytes, 6) == 0);
+        bool stringsMatch = (keystring == other.keystring);
+        return bytesMatch && stringsMatch;
+    }
 } keybind;
 
 std::vector<keybind> loadConfig(std::string filename);
