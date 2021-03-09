@@ -31,7 +31,7 @@ static void fatalErrorHandler()
 {
     cleanup();
     std::cout << "Terminated due to fatal error." << std::endl;
-    exit(-1);
+    exit(1);
 }
 
 void midiHandler(double timeStamp, std::vector< unsigned char > *message, void*)
