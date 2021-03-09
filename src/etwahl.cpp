@@ -15,14 +15,20 @@ static RtMidiIn *midiin = new RtMidiIn();
 static void cleanup()
 {
     delete midiin;
-
-    std::cout << "Terminated normally." << std::endl;
-    exit(0);
 }
 
 static void interruptHandler(int signal)
 {
     cleanup();
+    std::cout << "Terminated normally." << std::endl;
+    exit(0);
+}
+
+static void fatalErrorHandler()
+{
+    cleanup();
+    std::cout << "Terminated due to fatal error." << std::endl;
+    exit(-1);
 }
 
 void midiHandler(double timeStamp, std::vector< unsigned char > *message, void *userData)
@@ -62,27 +68,40 @@ int main()
     std::cout << "\nThere are " << nPorts << " MIDI input sources available.\n";
     std::string portName;
 
-    for (int i=0; i < nPorts; i++) {
-        try {
+    for (int i=0; i < nPorts; i++)
+    {
+        try
+        {
             portName = midiin->getPortName(i);
         }
-        catch ( RtMidiError &error ) {
-            error.printMessage();
-            cleanup();
+        catch(RtMidiError &error)
+        {
+            fatalErrorHandler();
         }
-        std::cout << "  Input Port #" << i+1 << ": " << portName << '\n';
+
+        std::cout << "  Input Port " << i + 1 << ": " << portName << '\n';
     }
 
     // Get port number.
     std::cin >> portNum;
 
-    midiin->openPort(portNum - 1);
+    try
+    {
+        midiin->openPort(portNum - 1);
+    }
+    catch(RtMidiError &error)
+    {
+        fatalErrorHandler();
+    }
+
     std::cout << "Reading MIDI from port " << portNum << "... Press Enter to quit.\n";
 
     std::cin.ignore(INT_MAX, '\n');
     std::cin.get();
 
     cleanup();
+
+    std::cout << "Terminated normally." << std::endl;
 
     return 0;
 }
