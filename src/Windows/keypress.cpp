@@ -85,16 +85,16 @@ void key(std::string keystring, bool keydown)
     input.type = INPUT_KEYBOARD;
     input.ki.wVk = winKeyMap[keystring];
     input.ki.wScan = 0;
-    ip.ki.time = 0;
-    ip.ki.dwExtraInfo = 0;
+    input.ki.time = 0;
+    input.ki.dwExtraInfo = 0;
 
     if(keydown)
     {
-        ip.ki.dwFlags = 0;
+        input.ki.dwFlags = 0;
     }
     else
     {
-        inputs[0].ki.dwFlags = KEYEVENTF_KEYUP;
+        input.ki.dwFlags = KEYEVENTF_KEYUP;
     }
 
     SendInput(1, &input, sizeof(INPUT));
