@@ -70,6 +70,17 @@ static std::unordered_map<std::string, WORD> winKeyMap =
     {"7", 0x37},
     {"8", 0x38},
     {"9", 0x39},
+
+    {"KP_0", 0x60},
+    {"KP_1", 0x61},
+    {"KP_2", 0x62},
+    {"KP_3", 0x63},
+    {"KP_4", 0x64},
+    {"KP_5", 0x65},
+    {"KP_6", 0x66},
+    {"KP_7", 0x67},
+    {"KP_8", 0x68},
+    {"KP_9", 0x69},
 };
 
 void key(std::string keystring, bool keydown)
