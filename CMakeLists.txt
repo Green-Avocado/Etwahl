@@ -10,9 +10,11 @@ include_directories(include)
 include_directories(third_party/rtmidi)
 include_directories(third_party/catch2)
 
-add_library(RtMidi third_party/rtmidi/RtMidi.cpp)
+file(REAL_PATH third_party/rtmidi/RtMidi.cpp RtMidi)
 
-set(LINK_LIBRARIES RtMidi)
+set(THIRD_PARTY_SRC ${RtMidi})
+
+set(LINK_LIBRARIES)
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     message(STATUS "Compiling for Linux...")
