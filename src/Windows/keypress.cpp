@@ -1,11 +1,7 @@
 #include "keypress.h"
-#include <windows.h>
+#include <winuser.h>
 #include <string>
 #include <unordered_map>
-
-#define ARRAYSIZE(a) \
-  ((sizeof(a) / sizeof(*(a))) / \
-  static_cast<size_t>(!(sizeof(a) % sizeof(*(a)))))
 
 static std::unordered_map<std::string, WORD> winKeyMap =
 {
@@ -84,17 +80,23 @@ static std::unordered_map<std::string, WORD> winKeyMap =
 
 void key(std::string keystring, bool keydown)
 {
-    INPUT inputs[1];
-    ZeroMemory(inputs, sizeof(inputs));
+    INPUT input;
 
-    inputs[0].type = INPUT_KEYBOARD;
-    inputs[0].ki.wVk = winKeyMap[keystring];
+    input.type = INPUT_KEYBOARD;
+    input.ki.wVk = winKeyMap[keystring];
+    input.ki.wScan = 0;
+    ip.ki.time = 0;
+    ip.ki.dwExtraInfo = 0;
 
-    if(!keydown)
+    if(keydown)
+    {
+        ip.ki.dwFlags = 0;
+    }
+    else
     {
         inputs[0].ki.dwFlags = KEYEVENTF_KEYUP;
     }
 
-    SendInput(ARRAYSIZE(inputs), inputs, sizeof(INPUT));
+    SendInput(1, &input, sizeof(INPUT));
 }
 
