@@ -34,7 +34,7 @@ void key(std::string keystring, bool keydown)
     inputs[0].type = INPUT_KEYBOARD;
     inputs[0].ki.wVk = winKeyMap[keystring];
 
-    if(keydown)
+    if(!keydown)
     {
         inputs[0].ki.dwFlags = KEYEVENTF_KEYUP;
     }
