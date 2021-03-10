@@ -1,6 +1,5 @@
 #include "keypress.h"
 #include <windows.h>
-#include <winuser.h>
 #include <string>
 #include <unordered_map>
 
