@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-keybind lineToKeybind(std::string line)
+static keybind lineToKeybind(std::string line)
 {
     keybind newbind;
     std::stringstream lineStream;
