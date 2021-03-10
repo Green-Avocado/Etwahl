@@ -21,6 +21,7 @@ add_library(RtMidi third_party/rtmidi/RtMidi.cpp)
 set(LINK_LIBRARIES RtMidi)
 
 add_compile_options(-Wall -Wextra -pedantic -Werror)
+add_compile_options(-static)
 
 
 
