@@ -25,6 +25,9 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     message(STATUS "Compiling for Windows...")
 
+    add_definitions(-D__WINDOWS_MM__)
+    set(LINK_LIBRARIES -lwinmm)
+
 else()
     message(FATAL_ERROR "Unsupported operating system.")
 
