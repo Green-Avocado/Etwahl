@@ -34,6 +34,15 @@ A list of keysyms with prefixes can be found at https://www.cl.cam.ac.uk/~mgk25/
 
 [up/dn] is either `up` or `dn` and refers to whether the key should be released or pressed.
 
+#### Example configuration
+
+The following `etwahl.config` file will hold `Shift_L` when the pedal is pressed, and release it when the pedal is released.
+
+```
+b0407f Shift_L dn
+b04000 Shift_L up
+```
+
 ### Run
 
 Run the program from the command line in the same directory as the config file.
