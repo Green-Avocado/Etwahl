@@ -6,6 +6,7 @@
 #include <fstream>
 #include <iomanip>
 #include <iostream>
+#include <sstream>
 #include <thread>
 #include <vector>
 
@@ -14,6 +15,7 @@
 #include <cstdlib>
 
 static RtMidiIn *midiin;
+static std::vector<keybind> config;
 
 static void cleanup()
 {
@@ -37,24 +39,34 @@ static void fatalErrorHandler()
 void midiHandler(double timeStamp, std::vector< unsigned char > *message, void*)
 {
     int nBytes;
+    char bytes[8];
+    std::stringstream byteStream;
     nBytes = message->size();
 
     for(int i = 0; i < nBytes; i++)
     {
-        std::cout << std::setw(2) << std::setfill('0') << std::hex << (int)message->at(i);
+        byteStream << std::setw(2) << std::setfill('0') << std::hex << (int)message->at(i);
     }
 
-    std::cout << "  " << timeStamp << std::endl;
+    byteStream.get(bytes, 8);
 
-    const char *keystring = "Shift_L";
+    std::cout << bytes << "  " << timeStamp << std::endl;
 
-    if((int)message->at(2) == 127)
+    for(int i = 0; i < (int)config.size(); i++)
     {
-        key(keystring, true);
-    }
-    else
-    {
-        key(keystring, false);
+        bool configMatch = true;
+
+        for(int ii = 0; ii < 6; ii++)
+        {
+            if(config[i].hexBytes[ii] != 'x' && config[i].hexBytes[ii] != bytes[ii])
+            {
+                configMatch = false;
+            }
+        }
+
+        if(configMatch)
+        {
+        }
     }
 }
 
@@ -67,7 +79,7 @@ int main()
 
     try
     {
-        loadConfig("etwahl.conf");
+        config = loadConfig("etwahl.config");
     }
     catch(std::string error)
     {

@@ -7,6 +7,16 @@
 #include <vector>
 #include <cstdio>
 
+bool operator==(const keybind& a, const keybind& b)
+{
+    bool bytesMatch = (strncmp(a.hexBytes, b.hexBytes, 6) == 0);
+    bool stringsMatch = (a.keystring == b.keystring);
+    bool keydownMatch = (a.keydown == b.keydown);
+
+    return bytesMatch && stringsMatch && keydownMatch;
+}
+
+
 std::vector<keybind> testConfigFile(std::string contents)
 {
     const std::string filename = "test.config~";
@@ -34,42 +44,46 @@ std::vector<keybind> testConfigFile(std::string contents)
 
 TEST_CASE("Configuration file read and interpreted", "[config]")
 {
-    REQUIRE(testConfigFile("") ==
+    CHECK(testConfigFile("") ==
             std::vector<keybind> {});
 
-    REQUIRE(testConfigFile(" xxxxxx A") ==
-            std::vector<keybind> {keybind {{'x','x','x','x','x','x'}, "A"}});
+    CHECK(testConfigFile(" xxxxxx A up") ==
+            std::vector<keybind> {keybind {{'x','x','x','x','x','x'}, "A", false}});
 
-    REQUIRE(testConfigFile("\nxxxxxx A") ==
-            std::vector<keybind> {keybind {{'x','x','x','x','x','x'}, "A"}});
+    CHECK(testConfigFile("\nxxxxxx A up") ==
+            std::vector<keybind> {keybind {{'x','x','x','x','x','x'}, "A", false}});
 
-    REQUIRE(testConfigFile("\txxxxxx A") ==
-            std::vector<keybind> {keybind {{'x','x','x','x','x','x'}, "A"}});
+    CHECK(testConfigFile("\txxxxxx A up") ==
+            std::vector<keybind> {keybind {{'x','x','x','x','x','x'}, "A", false}});
 
-    REQUIRE(testConfigFile("xxxxxx A") ==
-            std::vector<keybind> {keybind {{'x','x','x','x','x','x'}, "A"}});
+    CHECK(testConfigFile("xxxxxx A up") ==
+            std::vector<keybind> {keybind {{'x','x','x','x','x','x'}, "A", false}});
 
-    REQUIRE(testConfigFile("a1b2c3 Shift_L") ==
-            std::vector<keybind> {keybind {{'a','1','b','2','c','3'}, "Shift_L"}});
+    CHECK(testConfigFile("a1b2c3 Shift_L up") ==
+            std::vector<keybind> {keybind {{'a','1','b','2','c','3'}, "Shift_L", false}});
 
-    REQUIRE(testConfigFile("xxxxxx A\nxxxxxx B") ==
+    CHECK(testConfigFile("xxxxxx A up\nxxxxxx B dn") ==
             std::vector<keybind>
             {
-                keybind {{'x','x','x','x','x','x'}, "A"},
-                keybind {{'x','x','x','x','x','x'}, "B"},
+                keybind {{'x','x','x','x','x','x'}, "A", false},
+                keybind {{'x','x','x','x','x','x'}, "B", true},
             });
 
-    REQUIRE(testConfigFile("a1b2c3 Shift_L\nd4e5f6 Control_R") ==
+    CHECK(testConfigFile("a1b2c3 Shift_L up\nd4e5f6 Control_R dn") ==
             std::vector<keybind>
             {
-                keybind {{'a','1','b','2','c','3'}, "Shift_L"},
-                keybind {{'d','4','e','5','f','6'}, "Control_R"},
+                keybind {{'a','1','b','2','c','3'}, "Shift_L", false},
+                keybind {{'d','4','e','5','f','6'}, "Control_R", true},
             });
 
-    REQUIRE_THROWS(testConfigFile("xxxxxx"));
+    CHECK_THROWS(testConfigFile("xxxxxx"));
 
-    REQUIRE_THROWS(testConfigFile("xxxxxxx"));
+    CHECK_THROWS(testConfigFile("xxxxxxx"));
 
-    REQUIRE_THROWS(testConfigFile("xxxxxxx A"));
+    CHECK_THROWS(testConfigFile("xxxxxxx A"));
+
+    CHECK_THROWS(testConfigFile("xxxxxx A"));
+
+    CHECK_THROWS(testConfigFile("xxxxxx A B"));
 }
 

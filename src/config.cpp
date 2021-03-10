@@ -10,13 +10,28 @@ keybind lineToKeybind(std::string line)
 {
     keybind newbind;
     std::stringstream lineStream;
+    std::string keydownString;
 
     lineStream << line;
 
     lineStream >> newbind.hexBytes;
     lineStream >> newbind.keystring;
+    lineStream >> keydownString;
 
     if(strlen(newbind.hexBytes) != 6 || newbind.keystring.length() <= 0)
+    {
+        throw (std::string)"Invalid configuration file";
+    }
+
+    if(keydownString == "up")
+    {
+        newbind.keydown = false;
+    }
+    else if(keydownString == "dn")
+    {
+        newbind.keydown = true;
+    }
+    else
     {
         throw (std::string)"Invalid configuration file";
     }

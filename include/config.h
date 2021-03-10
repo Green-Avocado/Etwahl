@@ -8,13 +8,7 @@
 typedef struct keybind {
     char hexBytes[8];
     std::string keystring;
-
-    bool operator==(const keybind& other) const
-    {
-        bool bytesMatch = (strncmp(hexBytes, other.hexBytes, 6) == 0);
-        bool stringsMatch = (keystring == other.keystring);
-        return bytesMatch && stringsMatch;
-    }
+    bool keydown;
 } keybind;
 
 std::vector<keybind> loadConfig(std::string filename);
