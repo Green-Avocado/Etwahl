@@ -19,7 +19,7 @@ static std::unordered_map<std::string, WORD> winKeyMap =
     {"Control_L", 0x11},
     {"Caps_Lock", 0x14},
     {"Alt_L", 0x12},
-}
+};
 
 void key(std::string keystring, bool keydown)
 {
