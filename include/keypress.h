@@ -1,7 +1,9 @@
 #ifndef KEYPRESS_H
 #define KEYPRESS_H
 
-void key(const char *keystring, bool keydown);
+#include <string>
+
+void key(std::string keystring, bool keydown);
 
 #endif
 

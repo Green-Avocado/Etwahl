@@ -1,7 +1,12 @@
 #include "keypress.h"
 #include <winuser.h>
+#include <string>
 
-void key(const char *keystring, bool keydown)
+static WORD stringToVK()
+{
+}
+
+void key(std::string keystring, bool keydown)
 {
 }
 
