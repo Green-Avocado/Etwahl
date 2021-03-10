@@ -1,4 +1,5 @@
 #include "keypress.h"
+#include <stdlib.h>
 #include <windows.h>
 #include <winuser.h>
 #include <string>
