@@ -35,9 +35,15 @@ std::vector<keybind> testConfigFile(std::string contents)
         throw;
     }
 
-    config = loadConfig(filename);
-    
-    std::remove(filename.c_str());
+    try
+    {
+        config = loadConfig(filename);
+    }
+    catch(...)
+    {
+        std::remove(filename.c_str());
+        throw;
+    }
 
     return config;
 }
