@@ -3,7 +3,7 @@
 #include <string>
 #include <unordered_map>
 
-static unordered_map<std::string, WORD> winKeyMap =
+static std::unordered_map<std::string, WORD> winKeyMap =
 {
     {"Backspace", 0x08},
     {"Tab", 0x09},
