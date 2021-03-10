@@ -66,6 +66,7 @@ void midiHandler(double timeStamp, std::vector< unsigned char > *message, void*)
 
         if(configMatch)
         {
+            key(config[i].keystring.c_str(), config[i].keydown);
         }
     }
 }
