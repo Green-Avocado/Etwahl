@@ -1,9 +1,12 @@
 #include "keypress.h"
-#include <stdlib.h>
 #include <windows.h>
 #include <winuser.h>
 #include <string>
 #include <unordered_map>
+
+#define ARRAYSIZE(a) \
+  ((sizeof(a) / sizeof(*(a))) / \
+  static_cast<size_t>(!(sizeof(a) % sizeof(*(a)))))
 
 static std::unordered_map<std::string, WORD> winKeyMap =
 {
