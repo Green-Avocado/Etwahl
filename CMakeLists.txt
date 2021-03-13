@@ -35,6 +35,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     message(STATUS "Compiling for Windows...")
     add_compile_options(-static-libgcc -static-libstdc++)
+    string(APPEND CMAKE_SHARED_LINKER_FLAGS "-static-libgcc -static-libstdc++")
     set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++ -static")
 
     add_definitions(-D__WINDOWS_MM__)
