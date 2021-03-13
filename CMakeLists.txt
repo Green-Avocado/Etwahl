@@ -34,12 +34,12 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     message(STATUS "Compiling for Windows...")
-    set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++ -static")
-    set(CMAKE_CXX_STANDARD_LIBRARIES "-static-libgcc -static-libstd++ ${CMAKE_CXX_STANDARD_LIBRARIES}")
+    set(CMAKE_EXE_LINKER_FLAGS -static-libgcc -static-libstdc++ -static)
+    set(CMAKE_CXX_STANDARD_LIBRARIES -static-libgcc -static-libstd++ ${CMAKE_CXX_STANDARD_LIBRARIES})
 
     if(MINGW)
-        set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} 
-            -Wl,-Bstatic,--whole-archive -lwinpthread -Wl,--no-whole-archive")
+        set(CMAKE_EXE_LINKER_FLAGS ${CMAKE_EXE_LINKER_FLAGS} 
+            -Wl,-Bstatic,--whole-archive -lwinpthread -Wl,--no-whole-archive)
     endif()
 
 
