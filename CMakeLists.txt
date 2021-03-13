@@ -34,8 +34,13 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     message(STATUS "Compiling for Windows...")
-    set(CMAKE_EXE_LINKER_FLAGS -static-libgcc -static-libstdc++ -static)
-    set(CMAKE_CXX_STANDARD_LIBRARIES -static-libgcc -static-libstd++ ${CMAKE_CXX_STANDARD_LIBRARIES})
+
+    if (MINGW)
+        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -static-libgcc")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libgcc -static-libstdc++")
+        set(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS "${CMAKE_SHARED_LIBRARY_LINK_C_FLAGS} -static-libgcc -s")
+        set(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS "${CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS} -static-libgcc -static-libstdc++ -s")
+    endif()
 
     add_definitions(-D__WINDOWS_MM__)
     set(LINK_LIBRARIES ${LINK_LIBRARIES} -lwinmm)
