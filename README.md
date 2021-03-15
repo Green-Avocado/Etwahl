@@ -39,8 +39,8 @@ A list of keysyms with prefixes can be found at https://www.cl.cam.ac.uk/~mgk25/
 The following `etwahl.config` file will hold `Shift_L` when the pedal is pressed, and release it when the pedal is released.
 
 ```
-b0407f Shift_L up
-b04000 Shift_L dn
+b0407f Shift_L dn
+b04000 Shift_L up
 ```
 
 ### Run
