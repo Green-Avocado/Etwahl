@@ -64,9 +64,9 @@ TEST_CASE("Interpret config line", "[config]")
     CHECK(lineToKeybind("xxxxxx A up") == keybind {{'x','x','x','x','x','x'}, "A", false});
     CHECK(lineToKeybind("a1b2c3 Shift_L up") == keybind {{'a','1','b','2','c','3'}, "Shift_L", false});
 
-    CHECK_THROWS(testConfigFile("xxxxxx"));
-    CHECK_THROWS(testConfigFile("xxxxxxx A up"));
-    CHECK_THROWS(testConfigFile("xxxxxx A B"));
+    CHECK_THROWS(lineToKeybind("xxxxxx"));
+    CHECK_THROWS(lineToKeybind("xxxxxxx A up"));
+    CHECK_THROWS(lineToKeybind("xxxxxx A B"));
 }
 
 TEST_CASE("Configuration file read and interpreted", "[config]")
