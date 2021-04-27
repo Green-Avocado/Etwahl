@@ -63,7 +63,6 @@ std::vector<keybind> loadConfig(std::string filename)
             {
                 std::stringstream errorStream;
                 errorStream << "Invalid config on line " << lineNum << ".";
-                std::cout << "Error: " << errorStream.str() << std::endl;
                 throw errorStream.str();
             }
         }
@@ -74,7 +73,6 @@ std::vector<keybind> loadConfig(std::string filename)
     {
         std::stringstream errorStream;
         errorStream << "Unable to open file " << filename << ".";
-        std::cout << "Error: " << errorStream.str() << std::endl;
         throw errorStream.str();
     }
 

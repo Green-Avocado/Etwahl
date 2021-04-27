@@ -84,6 +84,7 @@ int main()
     }
     catch(std::string error)
     {
+        std::cout << "Error: " << error << std::endl;
         fatalErrorHandler();
     }
 
