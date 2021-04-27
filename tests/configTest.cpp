@@ -7,6 +7,14 @@
 #include <vector>
 #include <cstdio>
 
+
+// FORWARD DECLARATIONS
+
+keybind lineToKeybind(std::string line);
+
+
+// TEST INTERNALS
+
 bool operator==(const keybind& a, const keybind& b)
 {
     bool bytesMatch = (strncmp(a.hexBytes, b.hexBytes, 6) == 0);
@@ -48,10 +56,22 @@ std::vector<keybind> testConfigFile(std::string contents)
     return config;
 }
 
+
+// TEST CASES
+
+TEST_CASE("Interpret config line", "[config]")
+{
+    CHECK(lineToKeybind("xxxxxx A up") == keybind {{'x','x','x','x','x','x'}, "A", false});
+    CHECK(lineToKeybind("a1b2c3 Shift_L up") == keybind {{'a','1','b','2','c','3'}, "Shift_L", false});
+
+    CHECK_THROWS(testConfigFile("xxxxxx"));
+    CHECK_THROWS(testConfigFile("xxxxxxx A up"));
+    CHECK_THROWS(testConfigFile("xxxxxx A B"));
+}
+
 TEST_CASE("Configuration file read and interpreted", "[config]")
 {
-    CHECK(testConfigFile("") ==
-            std::vector<keybind> {});
+    CHECK(testConfigFile("") == std::vector<keybind> {});
 
     CHECK(testConfigFile(" xxxxxx A up") ==
             std::vector<keybind> {keybind {{'x','x','x','x','x','x'}, "A", false}});
@@ -83,13 +103,10 @@ TEST_CASE("Configuration file read and interpreted", "[config]")
             });
 
     CHECK_THROWS(testConfigFile("xxxxxx"));
-
     CHECK_THROWS(testConfigFile("xxxxxxx"));
-
     CHECK_THROWS(testConfigFile("xxxxxxx A"));
-
     CHECK_THROWS(testConfigFile("xxxxxx A"));
-
     CHECK_THROWS(testConfigFile("xxxxxx A B"));
+    CHECK_THROWS(testConfigFile("xxxxxxx A up"));
 }
 
